@@ -32,11 +32,11 @@ func main() {
 
 }
 
-func resultingFrequency(f []int, currentFreq int) int {
+func resultingFrequency(freq []int, currentFreq int) int {
 	var changeFreq int
 	var rf int
-	for j := range f {
-		changeFreq = f[j]
+	for j := range freq {
+		changeFreq = freq[j]
 		rf = currentFreq + changeFreq
 		currentFreq = rf
 	}
