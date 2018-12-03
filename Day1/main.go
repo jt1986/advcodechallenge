@@ -27,9 +27,12 @@ func main() {
 	}
 
 	currentFreq := 0
+
 	r := resultingFrequency(freq, currentFreq)
 	fmt.Println("resulting freq", r)
 
+	b := dupFreq(freq, currentFreq)
+	fmt.Printf("Frequency %d has reached twice\n", b)
 }
 
 func resultingFrequency(freq []int, currentFreq int) int {
@@ -41,4 +44,20 @@ func resultingFrequency(freq []int, currentFreq int) int {
 		currentFreq = rf
 	}
 	return rf
+}
+
+func dupFreq(f []int, currentFreq int) int {
+
+	dupFreqMap := make(map[int]bool)
+	dupFreqMap[currentFreq] = true
+	for {
+		for i := 0; i < len(f); i++ {
+			currentFreq += f[i]
+
+			if _, ok := dupFreqMap[currentFreq]; ok {
+				return currentFreq
+			}
+			dupFreqMap[currentFreq] = true
+		}
+	}
 }
