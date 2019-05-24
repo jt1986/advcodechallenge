@@ -55,16 +55,57 @@ func boxListReader() []string {
 		fmt.Println("File reading has errored out", err)
 	}
 	defer f.Close()
-	var boxIds []string
+	// var boxIds []string
 	fs := bufio.NewScanner(f)
+	// for fs.Scan() {
+	// 	boxIds = append(boxIds, fs.Text())
+	// }
+
+	strings := []string{}
+
 	for fs.Scan() {
-		boxIds = append(boxIds, fs.Text())
+		x := fs.Text()
+
+		for _, str := range strings {
+			if pos := compareStrings(str, x); pos >= 0 {
+				fmt.Println("Found the two strings:", str, x)
+				fmt.Println("They differ for character at position", pos)
+				fmt.Println("The common part is:", str[:pos]+str[pos+1:])
+				return nil
+			}
+		}
+
+		strings = append(strings, x)
+	}
+	fmt.Println(strings)
+	return strings
+}
+
+func compareStrings(s string, t string) int {
+	if len(s) != len(t) {
+		return -1
 	}
 
-	return boxIds
+	diffs := 0
+	posDiff := 0
+
+	for i := 0; i < len(s); i++ {
+		if s[i] != t[i] {
+			diffs++
+			posDiff = i
+		}
+	}
+
+	if diffs == 1 {
+		return posDiff
+	}
+
+	return -1
 }
 func main() {
 	fmt.Println("Day2 Inventory Management System")
 	fmt.Println("the checksum for the list of box ids", boxCheckSum())
-	fmt.Println("letters are common between the two correct box IDs")
+	boxListReader()
+
+	// fmt.Println("letters are common between the two correct box IDs", bl)
 }
